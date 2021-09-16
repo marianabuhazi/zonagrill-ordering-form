@@ -1,8 +1,17 @@
+.section {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+.body {
+	background-color: white;
+	margin: 0;
+}
 .submit {
 	display: block;
 	float: right;
 	margin-right: 5vw;
-	padding: 1vw 1.2vw 1vw 1.2vw;
+	padding: 2vh 1.2vw 2vh 1.2vw;
 	font-size: 2vh;
 	background-color: rgb(104, 187, 48);
 	color: white;
@@ -19,13 +28,25 @@
 
 .form {
 	display: block;
-	margin: 5vw;
+	margin: auto;
+	width: 80%;
 	margin-bottom: 15vw;
+	margin-top: 3vw;
+	padding: 4vw;
+	padding-bottom: 8vw;
+	background-color: rgb(251, 251, 251);
+}
+
+.admin {
+	display: block;
+	width: 40%;
+	padding: 2vw;
+	background-color: rgb(245, 245, 245);
 }
 .question {
 	margin: 5vh;
 	padding: 3vh;
-	background-color: rgb(245, 245, 245);
+	/* background-color: rgb(245, 245, 245); */
 	border-radius: 20px;
 }
 
@@ -35,10 +56,19 @@
 
 .input {
 	display: block;
-	border-radius: 5px;
-	width: 20vw;
+	border-radius: 0px;
+	width: 15vw;
 	padding: 2px;
-	border: solid black 1.2px;
+	border: solid rgb(155, 155, 155) 1.2px;
+	margin-top: 1vh;
+}
+.inputBox {
+	display: block;
+	border-radius: 0px;
+	width: 35vw;
+	height: 3vw;
+	padding: 2px;
+	border: solid rgb(155, 155, 155) 1.2px;
 	margin-top: 1vh;
 }
 

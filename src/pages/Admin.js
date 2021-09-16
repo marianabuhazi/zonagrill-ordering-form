@@ -1,43 +1,37 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import auth from '../components/auth/auth'
 import {withRouter} from 'react-router-dom'
 
 const Admin = (props) => {
-    const [orders, setOrders]=useState([
-    {
-        'id':1,
-        'email':'marian@gmail.com',
-        'fname':'marian',
-        'lname':'abuhazi',
-        'appetizer':'tequeños',
-        'entree':'none',
-        'drink':'sprite',
-        'comments':''
-    },
-    {
-        'id':2,
-        'email':'patty@gmail.com',
-        'fname':'patty',
-        'lname':'zambrano',
-        'appetizer':'none',
-        'entree':'none',
-        'drink':'coke',
-        'comments':''
-    },
-    {
-        'id':3,
-        'email':'sweet@gmail.com',
-        'fname':'sweet',
-        'lname':'caroline',
-        'appetizer':'none',
-        'entree':'none',
-        'drink':'none',
-        'comments':''
-    }
-  
-])
-    const readyOrder = (id) => {
-        setOrders(orders.filter(o=>o.id!==id))
+    const [orders, setOrders]=useState([])
+    useEffect(()=>{
+        const sendRequest =async ()=>{
+            try{
+                const response =await fetch('http://localhost:5000/admin/pending')
+                const responseData= await response.json()
+                setOrders(responseData.orders)
+            }
+            catch (err){
+                console.log(err.message)
+            }
+        }
+        sendRequest()
+    }, [orders])
+    
+    const readyOrder = async (id) => {
+        try{
+            const response= await fetch(`http://localhost:5000/admin/pending/${id}`, {
+                method:'POST',
+                headers:{
+                    'Content-Type': 'application/json'
+                }
+            })
+            const responseData=await response.json()
+            console.log(responseData.message)
+        }
+        catch (err){
+            console.log(err)
+        }
     }
        
     return (
@@ -59,16 +53,17 @@ const Admin = (props) => {
                 Ready Orders
             </button>
             <br/>
-            {orders.length===0 ? <h3>No pending orders at this time</h3> : orders.map(o=>{
+            {!orders? <h3>No pending orders at this time</h3> : orders.map(o=>{
                 return(
-                <div key={o.id}>
-                    <p>ORDER#{o.id}</p>
+                <div key={o._id}>
+                    <p>ORDER#{o._id}</p>
                     <p>NAME: {o.lname}, {o.fname}</p>
                     <p>ENTREE: {o.entree}</p>
                     <p>APPETIZER: {o.appetizer}</p>
                     <p>DRINK: {o.drink}</p>
                     <p>COMMENTS: {o.comments}</p>
-                    <button onClick={()=>readyOrder(o.id)}>Ready</button>    
+                    <br/>
+                    <button onClick={()=>readyOrder(o._id)}>Ready</button>    
                 </div>  
             )}) }
         </div>

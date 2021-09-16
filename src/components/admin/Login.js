@@ -9,30 +9,39 @@ const Login = (props) => {
     const [pw, setPw]=useState()
     const [mess, setMess]=useState()
 
-
-    const USER="yackselys";
-    const PW="test"
-
-    const signIn= (e) => {
+    const signIn= async (e) => {
         e.preventDefault()
-        if(user===USER && pw===PW){
-            setMess("Signing in...");
-            auth.login(()=>{
-                props.history.push(`/admin/${PASS}/orders`)
+        try{
+            const response= await fetch('http://localhost:5000/admin/login', {
+                method:'POST',
+                headers:{
+                    'Content-Type': 'application/json'
+                },
+                body:JSON.stringify({
+                    username:user,
+                    password:pw
+                })
             })
+            const responseData=await response.json()
+            if(responseData.message==="Logged in!"){
+                setMess("Signing in...");
+                auth.login(()=>{
+                    props.history.push(`/admin/${PASS}/orders`)
+                })
+            }
+            else{
+                setMess(responseData.message);
+            }
         }
-        else if(user===USER || pw===PW){
-            setMess("Invalid username or password");
-        }
-        else{
-            setMess("Wrong");
+        catch (err){
+            setMess(err.message)
         }
     }
 
     return (
         <div>
             <h1>Admin Login</h1>
-            <form className="question">
+            <form className="admin">
                 <label className="label">
                     Username
                     <span className="star"> *</span>

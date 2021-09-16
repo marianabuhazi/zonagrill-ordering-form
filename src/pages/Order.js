@@ -15,7 +15,7 @@ import OrderForm from '../components/order/OrderForm.js'
 
 const Order = ({setOrder}) => { 
     return (
-        <div>
+        <div className="body">
         <Header name="Thermofisher Corporate Event"/>
         <OrderForm setOrder={setOrder}/>
         <Link to="/admin/login">Admin Login</Link>
